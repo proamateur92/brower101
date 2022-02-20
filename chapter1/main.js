@@ -3,6 +3,7 @@ const horizontal = document.querySelector('.horizontal');
 const target = document.querySelector('.target');
 const tag = document.querySelector('.tag');
 
+function ininCenter() {}
 addEventListener('load', () => {
   const targetRect = target.getBoundingClientRect();
   const targetHalfWidth = targetRect.width / 2;
