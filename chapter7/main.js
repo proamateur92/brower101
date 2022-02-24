@@ -4,64 +4,80 @@ const play = document.querySelector('.play');
 const timer = document.querySelector('.timer');
 const counter = document.querySelector('.counter');
 const header = document.querySelector('.header__item');
-const bodyHalfWidth = body.getBoundingClientRect().height / 2;
 const target = document.querySelector('.target');
+let message;
 
 function randomPosition() {
   target.innerHTML = '';
   for (let i = 0; i < 10; i++) {
-    const newWidth = Math.floor(Math.random() * 1500 + 1);
-    const newHeight = Math.floor(Math.random() * 150 + 1);
+    const newWidth = Math.floor(Math.random() * 1200 + 1);
+    const newHeight = Math.floor(Math.random() * 230 + 1);
     target.innerHTML += `<i class='bug' style='transform:translate(${newWidth}px,${newHeight}px)'></i>`;
   }
+
   for (let i = 0; i < 10; i++) {
-    const newWidth = Math.floor(Math.random() * 1500 + 1);
-    const newHeight = Math.floor(Math.random() * bodyHalfWidth + 1);
+    const newWidth = Math.floor(Math.random() * 1200 + 1);
+    const newHeight = Math.floor(Math.random() * 230 + 1);
     target.innerHTML += `<i class='carrot' data-id='${i}' style='transform:translate(${newWidth}px,${newHeight}px)'></i>`;
   }
+
   const howMany = document.querySelectorAll('.carrot');
   counter.innerText = howMany.length;
 }
 
-function pop(result) {
-  header.innerHTML += `<div class="message">${result}</div>`;
+function eventCarrot(e) {
+  const id = e.target.dataset.id;
+  const remove = document.querySelector(`.carrot[data-id="${id}"]`);
+  remove.remove();
+  const howMany = document.querySelectorAll('.carrot');
+  counter.innerText = howMany.length;
+
+  if (howMany.length === 0) {
+    play.style.transform = `translateY(380px)`;
+    play.innerText = '다시';
+    pop('YOU WON!!');
+  }
 }
 
-// 2. 시작 클릭
-play.addEventListener('click', () => {
-  // 2-1. 중단 버튼으로 변환
-  play.innerText = '중단';
-  // 1) 요소 랜덤 배치
-  randomPosition();
+function eventBug() {
+  play.style.transform = `translateY(380px)`;
+  play.innerText = '다시';
+  pop('YOU LOST ㅠㅠ');
+}
 
-  target.addEventListener('click', e => {
-    if (e.target.className === 'carrot') {
-      const id = e.target.dataset.id;
-      const remove = document.querySelector(`.carrot[data-id="${id}"]`);
-      remove.remove();
-      const howMany = document.querySelectorAll('.carrot');
-      counter.innerText = howMany.length;
-      return;
-    }
+function pop(result) {
+  message = document.createElement('div');
+  message.setAttribute('class', 'message');
+  message.innerText = result;
+  header.appendChild(message);
+}
 
-    play.style.transform = `translateY(485px)`;
+header.addEventListener('click', e => {
+  if (play.innerText === '다시') {
+    header.removeChild(message);
+    play.style.transform = `translateY(0px)`;
+    play.innerText = '중단';
+    randomPosition();
+  } else if (play.innerText === '중단') {
+    play.style.transform = `translateY(380px)`;
     play.innerText = '다시';
-    if (e.target.className === 'bug') {
-      pop('YOU LOST ㅠㅠ');
-      return;
-    }
-  });
-  // 2) 타이머
-  const timeArr = [1,2,3,4,5]
-  let time = setInterval(decrease, 500, timeArr) {
-    function :decrease(timeArr) {
-      console.log(timeArr);
-    }
+    pop('YOU LOST ㅠㅠ');
   }
-  // 3) 마리 수 카운트
+
+  if (play.innerText === '클릭') {
+    randomPosition();
+    play.innerText = '중단';
+  }
 });
 
+target.addEventListener('click', e => {
+  if (e.target.className === 'carrot') {
+    eventCarrot(e);
+    return;
+  }
 
-// 4) 벌레 클릭하면 or 타이머 다 되면 종료
-// 4-1)
-// retry 메시지 띄우기
+  if (e.target.className === 'bug') {
+    eventBug();
+    return;
+  }
+});

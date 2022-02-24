@@ -3,6 +3,8 @@
 }
 
 body {
+  width: 100vw;
+  height: 50vh;
   background-image: url('img/background.png');
   background-size: cover;
   background-repeat: no-repeat;
@@ -15,16 +17,28 @@ body {
   transform: translateY(5%);
   font-size: xx-large;
   text-align: center;
+  width: 100vw;
+  height: 50vh;
 }
 
-.timer,
-.counter,
 .play {
+  position: absolute;
   width: 150px;
   height: 70px;
   line-height: 70px;
   margin: 4px 0;
   border: 2px solid;
+  z-index: 1;
+}
+
+.timer,
+.counter {
+  width: 150px;
+  height: 70px;
+  line-height: 70px;
+  margin: 4px 0;
+  border: 2px solid;
+  transform: translateY(85px);
 }
 
 .timer {
@@ -38,19 +52,18 @@ body {
 }
 
 .play {
-  position: float;
+  position: absolute;
   width: 75px;
   height: 75px;
   background-color: rgb(240, 158, 65);
   border-radius: 50%;
   cursor: pointer;
-  z-index: 2;
 }
 
 .message {
-  transform: translateY(150px);
-  position: relative;
-  width: 500px;
+  transform: translateY(300px);
+  position: absolute;
+  width: 400px;
   height: 200px;
   background-color: black;
   opacity: 70%;
@@ -62,8 +75,10 @@ body {
 }
 
 .target {
-  display: inline-block;
+  z-index: -2;
   position: relative;
+  width: 100vw;
+  height: 200px;
 }
 
 .carrot,
