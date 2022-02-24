@@ -6,6 +6,12 @@ const counter = document.querySelector('.counter');
 const header = document.querySelector('.header__item');
 const target = document.querySelector('.target');
 let message;
+let stop;
+const bg = new Audio('sound/bg.mp3');
+const alert = new Audio('sound/alert.wav');
+const bugPull = new Audio('sound/bug_pull.mp3');
+const carrotPull = new Audio('sound/carrot_pull.mp3');
+const win = new Audio('sound/game_win.mp3');
 
 function randomPosition() {
   target.innerHTML = '';
@@ -36,6 +42,7 @@ function eventCarrot(e) {
     play.style.transform = `translateY(380px)`;
     play.innerText = '다시';
     pop('YOU WON!!');
+    win.play();
   }
 }
 
@@ -50,33 +57,59 @@ function pop(result) {
   message.setAttribute('class', 'message');
   message.innerText = result;
   header.appendChild(message);
+  clearInterval(stop);
+  if (result !== 'YOU WON!!') {
+    alert.play();
+  }
+}
+
+function timeDecrese() {
+  let time = 10;
+  timer.innerText = `00:${time}`;
+  stop = setInterval(() => {
+    timer.innerText = `00:0${--time}`;
+    if (time === 0) {
+      pop('YOU LOST ㅠㅠ');
+      play.style.transform = `translateY(380px)`;
+      play.innerText = '다시';
+      clearInterval(stop);
+    }
+  }, 1000);
 }
 
 header.addEventListener('click', e => {
-  if (play.innerText === '다시') {
-    header.removeChild(message);
-    play.style.transform = `translateY(0px)`;
-    play.innerText = '중단';
-    randomPosition();
-  } else if (play.innerText === '중단') {
-    play.style.transform = `translateY(380px)`;
-    play.innerText = '다시';
-    pop('YOU LOST ㅠㅠ');
-  }
+  if (e.target.className === 'play') {
+    if (play.innerText === '다시') {
+      header.removeChild(message);
+      play.style.transform = `translateY(0px)`;
+      play.innerText = '중단';
+      randomPosition();
+      timeDecrese();
+    } else if (play.innerText === '중단') {
+      play.style.transform = `translateY(380px)`;
+      play.innerText = '다시';
+      pop('YOU LOST ㅠㅠ');
+    }
 
-  if (play.innerText === '클릭') {
-    randomPosition();
-    play.innerText = '중단';
+    if (play.innerText === '클릭') {
+      bg.play();
+      randomPosition();
+      play.innerText = '중단';
+      timeDecrese();
+    }
   }
 });
 
 target.addEventListener('click', e => {
   if (e.target.className === 'carrot') {
+    carrotPull.play();
     eventCarrot(e);
     return;
   }
 
   if (e.target.className === 'bug') {
+    bugPull.play();
+    clearInterval(stop);
     eventBug();
     return;
   }
