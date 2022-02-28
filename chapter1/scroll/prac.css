@@ -1,0 +1,22 @@
+body {
+  background-color: bisque;
+}
+
+.scroll {
+  position: fixed;
+  transform: translateX(40%);
+}
+
+.box {
+  width: 60px;
+  height: 60px;
+  margin: 20px;
+  background-color: indianred;
+}
+
+.special {
+  width: 60px;
+  height: 60px;
+  margin: 20px;
+  background-color: indigo;
+}
