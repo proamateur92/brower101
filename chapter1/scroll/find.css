@@ -1,0 +1,41 @@
+body {
+  background-color: goldenrod;
+}
+
+.find__button {
+  margin: 10px;
+  color: white;
+  font-size: 2rem;
+  background-color: burlywood;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.find__button:hover {
+  transform: scale(1.1);
+  color: whitesmoke;
+  transition: transform 300ms ease-in;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 400px;
+  height: 900px;
+  margin: auto;
+}
+
+.dotori {
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+}
+
+.squirrel {
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+}
