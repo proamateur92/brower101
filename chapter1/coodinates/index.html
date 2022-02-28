@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>찾아라 007!</title>
+    <style>
+      * {
+        margin: 0;
+      }
+
+      body {
+        background-color: aquamarine;
+      }
+
+      div {
+        position: absolute;
+      }
+
+      .target {
+        width: 25px;
+        height: 25px;
+      }
+
+      .horizontal {
+        background-color: black;
+        width: 100%;
+        height: 1px;
+      }
+
+      .vertical {
+        background-color: black;
+        width: 1px;
+        height: 100%;
+      }
+
+      .text {
+        position: absolute;
+        margin: 10px;
+        font-size: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="horizontal"></div>
+    <div class="vertical"></div>
+    <span class="text"></span>
+    <img src="../img/target.png" alt="icon" class="target" />
+  </body>
+  <script>
+    const horizontal = document.querySelector('.horizontal');
+    const vertical = document.querySelector('.vertical');
+    const text = document.querySelector('.text');
+    const target = document.querySelector('.target');
+    const targetRect = target.getBoundingClientRect();
+    const targetWidth = targetRect.width / 2;
+    const targetHeight = targetRect.height / 2;
+
+    document.addEventListener('mousemove', followMouse);
+    function followMouse(event) {
+      const x = event.clientX;
+      const y = event.clientY;
+
+      text.innerHTML = `x,y (${x},${y})`;
+
+      text.style.transform = `translate(${x}px, ${y}px)`;
+      horizontal.style.transform = `translateY(${y}px)`;
+      vertical.style.transform = `translateX(${x}px)`;
+      target.style.transform = `translate(${x - targetWidth}px, ${y - targetHeight}px)`;
+    }
+  </script>
+</html>
